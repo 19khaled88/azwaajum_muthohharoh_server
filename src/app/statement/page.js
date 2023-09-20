@@ -1,43 +1,46 @@
 'use client'
-import {useRouter} from 'next/navigation'
-import { useEffect } from 'react';
-const Statement = async () => {
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Button from '../button/page'
+
+const Statement = () => {
+  const [pds, setPds] = useState([])
+  const [loading, setLoading] = useState(true)
   const {push} = useRouter()
-  const response = await fetch("https://fakestoreapi.com/products", {
-    next: { revalidate: 5 },
-  });
-  const data = await response.json();
-
-  const handleSingle = (id) => {
-    push(`/statement/${id}`)
-  };
-
-  const showData = (data) => {
-    let array = [];
-    data.forEach((element, index) => {
+  
+  useEffect(() => {
+    const getProducts = async () => {
+      const res = await fetch('https://fakestoreapi.com/products')
+      const data =await res.json()
+      setPds(data)
+      setLoading(false)
+    }
+    getProducts()
+  }, [])
+  
+  const showProduct=(data)=>{
+    let array =[]
+    data.map((product,index)=>(
       array.push(
         <div key={index}>
-          <p>{element.category}</p>
-          <p>{element.description}</p>
-          <img
-            src={`${element.image}`}
-            alt="No Image"
-            width="100px"
-            height="100px"
-          />
-          <p>{element.price}</p>
-          <button onClick={()=>handleSingle(element.id)}>Go to product</button>
+          <img src={`${product.image}`} alt='no Image' width='150px' height='150px'/>
+          <p>{product.title}</p>
+          <p>{product.description}</p>
+          <p>{product.price}</p>
+          <p>{product.category}</p>
+          <button className='bg-orange-600 pl-3 pr-3 pt-2 pb-2 rounded' onClick={()=>push(`/statement/${product.id}`)}>Details</button>
+          <Button text='click me' onClick={()=>console.log('Button clicked')} style={"bg-red-500"}/>
         </div>
-      );
-    });
-    return array;
-  };
+      )
+    ))
+    return array
+  }
+  if(loading){
+    return <div>Loading.....</div>
+  }
+  return <div className='grid grid-cols-5 pl-5 pr-5 pt-5 gap-4'>
+    {showProduct(pds)}
+  </div>
+}
 
-  return (
-    <div className=" pl-5 pr-5 pt-5">
-      <div className="grid grid-cols-6">{showData(data)}</div>
-    </div>
-  );
-};
-
-export default Statement;
+export default Statement
