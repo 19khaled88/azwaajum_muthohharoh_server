@@ -47,7 +47,7 @@ const RegisterService = (payload) => __awaiter(void 0, void 0, void 0, function*
         }
     });
     if (isExist) {
-        throw new Error('This user already exist');
+        throw new Error('This user already exist in our database');
     }
     const Hashed = yield (0, token_1.hashPassword)(payload.password);
     payload.password = Hashed;

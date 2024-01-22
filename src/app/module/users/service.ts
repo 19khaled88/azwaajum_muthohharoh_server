@@ -47,7 +47,7 @@ const RegisterService = async (payload: User): Promise<registerResponse> => {
     })
 
     if(isExist){
-        throw new Error('This user already exist');
+        throw new Error('This user already exist in our database');
     }
 
     const Hashed = await hashPassword(payload.password)
