@@ -23,7 +23,7 @@ const LoginController = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     catch (error) {
         res.status(400).json({
             success: false,
-            message: 'Login failed',
+            message: 'Failed!, email or password wrong',
             data: error
         });
     }

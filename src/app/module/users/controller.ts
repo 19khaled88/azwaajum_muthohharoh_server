@@ -13,7 +13,7 @@ const LoginController =async(req:Request,res:Response,next:NextFunction) =>{
     } catch (error:any) {
         res.status(400).json({
             success:false,
-            message:'Login failed',
+            message:'Failed!, email or password wrong',
             data:error
         })
     }
