@@ -36,7 +36,12 @@ const RegisterController =async(req:Request,res:Response,next:NextFunction) =>{
     }
 }
 
+const refreshToken=async(req:Request,res:Response,next:NextFunction)=>{
+
+}
+
 export const AuthController = {
     LoginController,
-    RegisterController
+    RegisterController,
+    refreshToken
 }

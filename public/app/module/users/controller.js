@@ -45,7 +45,10 @@ const RegisterController = (req, res, next) => __awaiter(void 0, void 0, void 0,
         });
     }
 });
+const refreshToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+});
 exports.AuthController = {
     LoginController,
-    RegisterController
+    RegisterController,
+    refreshToken
 };

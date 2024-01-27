@@ -9,4 +9,7 @@ const controller_1 = require("./controller");
 const router = express_1.default.Router();
 router.post('/login', controller_1.AuthController.LoginController);
 router.post('/register', controller_1.AuthController.RegisterController);
+router.post('/refresh-token', 
+// validateRequest(UserZodValidation.refreshTokenZodSchema),
+controller_1.AuthController.refreshToken);
 exports.AuthRouter = router;

@@ -1,6 +1,7 @@
 import { Prisma, User, PrismaClient } from "@prisma/client"
 import { comparePasswords, hashPassword, signJwt } from "../../../utils/token"
 import { loginResponse, registerResponse } from "./interface"
+import config from "../../../config"
 
 const prisma = new PrismaClient()
 
@@ -22,13 +23,14 @@ const LoginService = async (payload: User): Promise<loginResponse> => {
 
     if (isExist !== null &&
         payload.password !== undefined && (await comparePasswords(payload.password, isExist.password))) {
-        console.log('please generate token')
+        // console.log('please generate token')
 
         //create access token, refresh token 
         const data = { id: isExist.id, email: isExist.email as string }
         const accessToken = await signJwt(data)
         return {
-            accessToken
+            accessToken,
+            expires_in:config.accessTokenExpiresIn as string
         }
         // const refreshToken = await createRefreshToken(data)
 
@@ -67,6 +69,8 @@ const RegisterService = async (payload: User): Promise<registerResponse> => {
         accessToken
     }
 }
+
+
 
 
 export const AuthService = {

@@ -5,6 +5,7 @@ export type ITokenData = {
 
 export type loginResponse = {
     accessToken: string
+    expires_in:string
 }
 
 export type registerResponse = {
