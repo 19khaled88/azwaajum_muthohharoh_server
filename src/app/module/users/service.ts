@@ -26,11 +26,11 @@ const LoginService = async (payload: User): Promise<loginResponse> => {
         // console.log('please generate token')
 
         //create access token, refresh token 
-        const data = { id: isExist.id, email: isExist.email as string }
+        const data = { id: isExist.id, role: isExist.role, email: isExist.email as string }
         const accessToken = await signJwt(data)
         return {
             accessToken,
-            expires_in:config.accessTokenExpiresIn as string
+            // expires_in: config.accessTokenExpiresIn as string
         }
         // const refreshToken = await createRefreshToken(data)
 
@@ -43,27 +43,27 @@ const LoginService = async (payload: User): Promise<loginResponse> => {
 const RegisterService = async (payload: User): Promise<registerResponse> => {
 
     const isExist = await prisma.user.findFirst({
-        where:{
-            email:payload.email
+        where: {
+            email: payload.email
         }
     })
 
-    if(isExist){
+    if (isExist) {
         throw new Error('This user already exist in our database');
     }
 
     const Hashed = await hashPassword(payload.password)
-    payload.password = Hashed 
+    payload.password = Hashed
 
 
     const response = await prisma.user.create({
         data: payload
     })
 
-    if(!response){
+    if (!response) {
         throw new Error('Registration falied')
-    } 
-    const data = { id: response.id, email: response.email as string }
+    }
+    const data = { id: response.id, role: response.role, email: response.email as string }
     const accessToken = await signJwt(data)
     return {
         accessToken

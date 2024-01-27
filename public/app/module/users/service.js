@@ -8,14 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const client_1 = require("@prisma/client");
 const token_1 = require("../../../utils/token");
-const config_1 = __importDefault(require("../../../config"));
 const prisma = new client_1.PrismaClient();
 const LoginService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const isExist = yield prisma.user.findFirst({
@@ -33,11 +29,11 @@ const LoginService = (payload) => __awaiter(void 0, void 0, void 0, function* ()
         payload.password !== undefined && (yield (0, token_1.comparePasswords)(payload.password, isExist.password))) {
         // console.log('please generate token')
         //create access token, refresh token 
-        const data = { id: isExist.id, email: isExist.email };
+        const data = { id: isExist.id, role: isExist.role, email: isExist.email };
         const accessToken = yield (0, token_1.signJwt)(data);
         return {
             accessToken,
-            expires_in: config_1.default.accessTokenExpiresIn
+            // expires_in: config.accessTokenExpiresIn as string
         };
         // const refreshToken = await createRefreshToken(data)
     }
@@ -62,7 +58,7 @@ const RegisterService = (payload) => __awaiter(void 0, void 0, void 0, function*
     if (!response) {
         throw new Error('Registration falied');
     }
-    const data = { id: response.id, email: response.email };
+    const data = { id: response.id, role: response.role, email: response.email };
     const accessToken = yield (0, token_1.signJwt)(data);
     return {
         accessToken
