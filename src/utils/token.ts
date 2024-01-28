@@ -33,6 +33,11 @@ export const signJwt = async(payload: Object) => {
     });
 };
 
+export const createTokens = async(payload: Object,key:Secret,expires:string) => {
+    return jwt.sign(payload, key, {
+        expiresIn:expires,
+    });
+};
 
 // export const signJwt = async(payload: Object, options: SignOptions = {}) => {
 //     return jwt.sign(payload, config.accessToken as Secret, {
@@ -56,7 +61,6 @@ export const signJwt = async(payload: Object) => {
 // };
 
 export const verifyJwt = <T>(token: string): JwtPayload => {
-
     try {
         const payload = jwt.verify(token, ACCESS_TOKEN_KEY as Secret) as JwtPayload;
 

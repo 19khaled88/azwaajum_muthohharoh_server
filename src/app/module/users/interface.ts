@@ -5,9 +5,11 @@ export type ITokenData = {
 
 export type loginResponse = {
     accessToken: string
+    refreshToken:string
     // expires_in:string
 }
 
 export type registerResponse = {
     accessToken: string
+    refreshToken:string
 }

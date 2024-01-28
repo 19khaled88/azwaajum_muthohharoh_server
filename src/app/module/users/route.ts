@@ -9,7 +9,7 @@ router.post('/login',AuthController.LoginController)
 router.post('/register',AuthController.RegisterController)
 router.post('/refresh-token',
 // validateRequest(UserZodValidation.refreshTokenZodSchema),
-AuthController.refreshToken)
+AuthController.createAccessToken)
 
 
 export const AuthRouter = router

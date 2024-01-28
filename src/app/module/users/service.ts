@@ -1,5 +1,5 @@
 import { Prisma, User, PrismaClient } from "@prisma/client"
-import { comparePasswords, hashPassword, signJwt } from "../../../utils/token"
+import { comparePasswords, createTokens, hashPassword, signJwt } from "../../../utils/token"
 import { loginResponse, registerResponse } from "./interface"
 import config from "../../../config"
 
@@ -27,9 +27,13 @@ const LoginService = async (payload: User): Promise<loginResponse> => {
 
         //create access token, refresh token 
         const data = { id: isExist.id, role: isExist.role, email: isExist.email as string }
-        const accessToken = await signJwt(data)
+        // const accessToken = await signJwt(data)
+        const accessToken = await createTokens(data,config.accessToken,config.accessTokenExpiresIn as string)
+        const refreshToken = await createTokens(data,config.refreshToken,config.refreshTokenExpiresIn as string)
+        
         return {
             accessToken,
+            refreshToken
             // expires_in: config.accessTokenExpiresIn as string
         }
         // const refreshToken = await createRefreshToken(data)
@@ -64,14 +68,17 @@ const RegisterService = async (payload: User): Promise<registerResponse> => {
         throw new Error('Registration falied')
     }
     const data = { id: response.id, role: response.role, email: response.email as string }
-    const accessToken = await signJwt(data)
+    // const accessToken = await signJwt(data)
+    const accessToken = await createTokens(data,config.accessToken,config.accessTokenExpiresIn as string)
+        const refreshToken = await createTokens(data,config.refreshToken,config.refreshTokenExpiresIn as string)
     return {
-        accessToken
+        accessToken,
+        refreshToken
     }
 }
 
-const createRefreshToken=async(payload:any)=>{
-    
+const createAccessToken=async(payload:any)=>{
+    console.log(payload)
 }
 
 
@@ -80,5 +87,5 @@ const createRefreshToken=async(payload:any)=>{
 export const AuthService = {
     LoginService,
     RegisterService,
-    createRefreshToken
+    createAccessToken
 }
