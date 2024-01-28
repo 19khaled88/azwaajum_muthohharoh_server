@@ -11,5 +11,5 @@ router.post('/login', controller_1.AuthController.LoginController);
 router.post('/register', controller_1.AuthController.RegisterController);
 router.post('/refresh-token', 
 // validateRequest(UserZodValidation.refreshTokenZodSchema),
-controller_1.AuthController.refreshToken);
+controller_1.AuthController.createAccessToken);
 exports.AuthRouter = router;

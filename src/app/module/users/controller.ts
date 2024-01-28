@@ -38,7 +38,7 @@ const RegisterController =async(req:Request,res:Response,next:NextFunction) =>{
 
 const createAccessToken=async(req:Request,res:Response,next:NextFunction)=>{
     try {
-        const response = await AuthService.createAccessToken(req.body)
+        const response = await AuthService.createAccessToken(req.body.key, req.body.token)
         res.status(200).json({
             success:true,
             message:'Refresh token created successfully',

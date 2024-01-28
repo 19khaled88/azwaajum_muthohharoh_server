@@ -74,10 +74,24 @@ const RegisterService = (payload) => __awaiter(void 0, void 0, void 0, function*
         refreshToken
     };
 });
-const createRefreshToken = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+const createAccessToken = (key, refreshToken) => __awaiter(void 0, void 0, void 0, function* () {
+    const res = (0, token_1.verifyRefreshToken)(refreshToken, key);
+    if (res) {
+        const data = { id: res.id, role: res.role, email: res.email };
+        const accessToken = yield (0, token_1.createTokens)(data, config_1.default.accessToken, config_1.default.accessTokenExpiresIn);
+        const refreshToken = yield (0, token_1.createTokens)(data, config_1.default.refreshToken, config_1.default.refreshTokenExpiresIn);
+        return {
+            accessToken,
+            refreshToken
+        };
+    }
+    else {
+        return null;
+    }
+    // console.log(key,token)
 });
 exports.AuthService = {
     LoginService,
     RegisterService,
-    createRefreshToken
+    createAccessToken
 };

@@ -1,7 +1,8 @@
 import { Prisma, User, PrismaClient } from "@prisma/client"
-import { comparePasswords, createTokens, hashPassword, signJwt } from "../../../utils/token"
-import { loginResponse, registerResponse } from "./interface"
+import { comparePasswords, createTokens, hashPassword, verifyJwt, verifyRefreshToken } from "../../../utils/token"
+import { loginResponse, refreshTokenResponse, registerResponse } from "./interface"
 import config from "../../../config"
+import { jwtDecode } from "jwt-decode"
 
 const prisma = new PrismaClient()
 
@@ -77,8 +78,20 @@ const RegisterService = async (payload: User): Promise<registerResponse> => {
     }
 }
 
-const createAccessToken=async(payload:any)=>{
-    console.log(payload)
+const createAccessToken=async(key:string,refreshToken:any):Promise<refreshTokenResponse | null>=>{
+     const res = verifyRefreshToken(refreshToken,key)
+     if(res){
+        const data = { id: res.id, role: res.role, email: res.email as string }
+        const accessToken = await createTokens(data,config.accessToken,config.accessTokenExpiresIn as string)
+        const refreshToken = await createTokens(data,config.refreshToken,config.refreshTokenExpiresIn as string)
+        return {
+            accessToken,
+            refreshToken
+        }
+     }else{
+        return null
+     }
+    // console.log(key,token)
 }
 
 

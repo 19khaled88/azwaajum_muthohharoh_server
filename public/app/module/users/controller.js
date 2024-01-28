@@ -45,9 +45,9 @@ const RegisterController = (req, res, next) => __awaiter(void 0, void 0, void 0,
         });
     }
 });
-const refreshToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const createAccessToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield service_1.AuthService.createRefreshToken(req.body);
+        const response = yield service_1.AuthService.createAccessToken(req.body.key, req.body.token);
         res.status(200).json({
             success: true,
             message: 'Refresh token created successfully',
@@ -65,5 +65,5 @@ const refreshToken = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
 exports.AuthController = {
     LoginController,
     RegisterController,
-    refreshToken
+    createAccessToken
 };

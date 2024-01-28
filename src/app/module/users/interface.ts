@@ -13,3 +13,7 @@ export type registerResponse = {
     accessToken: string
     refreshToken:string
 }
+export type refreshTokenResponse = {
+    accessToken: string
+    refreshToken:string
+}
