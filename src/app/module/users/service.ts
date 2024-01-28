@@ -70,10 +70,15 @@ const RegisterService = async (payload: User): Promise<registerResponse> => {
     }
 }
 
+const createRefreshToken=async(payload:any)=>{
+    
+}
+
 
 
 
 export const AuthService = {
     LoginService,
-    RegisterService
+    RegisterService,
+    createRefreshToken
 }

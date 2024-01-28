@@ -37,7 +37,20 @@ const RegisterController =async(req:Request,res:Response,next:NextFunction) =>{
 }
 
 const refreshToken=async(req:Request,res:Response,next:NextFunction)=>{
-
+    try {
+        const response = await AuthService.createRefreshToken(req.body)
+        res.status(200).json({
+            success:true,
+            message:'Refresh token created successfully',
+            data:response
+        })
+    } catch (error:any) {
+        res.status(400).json({
+            success:false,
+            message:'Something wrong with creating refresh token',
+            data:error
+        })
+    }
 }
 
 export const AuthController = {

@@ -64,7 +64,10 @@ const RegisterService = (payload) => __awaiter(void 0, void 0, void 0, function*
         accessToken
     };
 });
+const createRefreshToken = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+});
 exports.AuthService = {
     LoginService,
-    RegisterService
+    RegisterService,
+    createRefreshToken
 };

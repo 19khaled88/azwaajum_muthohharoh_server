@@ -46,6 +46,21 @@ const RegisterController = (req, res, next) => __awaiter(void 0, void 0, void 0,
     }
 });
 const refreshToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield service_1.AuthService.createRefreshToken(req.body);
+        res.status(200).json({
+            success: true,
+            message: 'Refresh token created successfully',
+            data: response
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            success: false,
+            message: 'Something wrong with creating refresh token',
+            data: error
+        });
+    }
 });
 exports.AuthController = {
     LoginController,
