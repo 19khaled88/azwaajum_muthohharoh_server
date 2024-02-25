@@ -15,15 +15,246 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// data entry and query process ----------- >
+// 1 . every user will have user id
+// 2 . every user's user id will be inputed to respective biodata table'
+// 3 . biodata table will have also respective user id, and that biodata table will be use to query based on user's id. 
+// 4 . whene submit button clicked and created new biodata, then an entry with user id will be posted to biodata table
+
 model User {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  email String @unique
-  password  String
-  role      RoleEnumType @default(USER)
-  createAt  DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  id                  String              @id @default(auto()) @map("_id") @db.ObjectId
+  email               String              @unique
+  password            String
+  role                RoleEnumType        @default(USER)
+  createAt            DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  bio_Data            Bio_data[]
+  general_Info        General_Info[]
+  present_addresses   Present_address[]
+  permanent_addresses Permanent_address[]
+  educational_Info    Educational_Info[]
+  family_Info         Family_Info[]
+  personal_Info       Personal_Info[]
+  professional_Info   Professional_Info[]
+  marital_Info        Marital_Info[]
+  partner_Info        Partner_Info[]
+  agreementInfo       agreementInfo[]
+  contactInfo         ContactInfo[]
 
   @@map("users")
+}
+
+model Bio_data {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  user_id   String     @db.ObjectId
+  user      User       @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  status    StatusType @default(PENDING)
+  make      BioCreated @default(NO)
+  createAt  DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@map("bio_data")
+}
+
+model General_Info {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  user_id        String   @db.ObjectId
+  user           User     @relation(fields: [user_id], references: [id])
+  bio_type       String
+  marital_status String
+  birth_date     DateTime
+  height         String
+  complexion     String
+  weight         String
+  blood_group    String
+  nationality    String
+  createAt       DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("general_Info")
+}
+
+model Present_address {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  user_id      String @db.ObjectId
+  user         User   @relation(fields: [user_id], references: [id])
+  division     String
+  district     String
+  sub_district String
+  post_office  String
+  village      String
+
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("present_address")
+}
+
+model Permanent_address {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  user_id      String @db.ObjectId
+  user         User   @relation(fields: [user_id], references: [id])
+  division     String
+  district     String
+  sub_district String
+  post_office  String
+  village      String
+
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("permanent_addresses")
+}
+
+model Educational_Info {
+  id                            String   @id @default(auto()) @map("_id") @db.ObjectId
+  user_id                       String   @db.ObjectId
+  user                          User     @relation(fields: [user_id], references: [id])
+  education_medium              String
+  ssc_institute                 String
+  ssc_department                String
+  ssc_year                      Int
+  ssc_result                    String
+  entitlement                   String[] @default([])
+  highest_degree_institute      String?
+  other_education_qualification String?
+  ssc_other_info                String?
+  top_degree_name               String?
+  top_degree_other_info         String?
+  top_degree_pass_year          Int?
+  top_degree_result             String?
+  top_degree_subject_department String?
+
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("educational_info")
+}
+
+model Family_Info {
+  id                               String  @id @default(auto()) @map("_id") @db.ObjectId
+  user_id                          String  @db.ObjectId
+  user                             User    @relation(fields: [user_id], references: [id])
+  father_name                      String
+  father_profession_details        String
+  if_father_died                   String
+  mother_name                      String
+  if_mother_died                   String
+  mother_profession_details        String
+  brothers                         String
+  brothers_details                 String?
+  sisters                          String
+  sisters_details                  String?
+  paternal_maternal_uncles_details String?
+  economy_short_brief              String
+  economy_status                   String
+  deen_practice_in_house           String
+
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("family_info")
+}
+
+model Personal_Info {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  user_id           String   @db.ObjectId
+  user              User     @relation(fields: [user_id], references: [id])
+  above_ankles      String
+  beard             String
+  contact_number    String
+  deen_work         String
+  diseases          String
+  dress_outside     String
+  fique             String
+  hobbies           String
+  islamic_books     String
+  islamic_schoolars String
+  mahram_non_mahram String
+  pray_five_time    String
+  recite_quran      String
+  song_drama_movie  String
+  createAt          DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("personal_info")
+}
+
+model Professional_Info {
+  id                     String   @id @default(auto()) @map("_id") @db.ObjectId
+  user_id                String   @db.ObjectId
+  user                   User     @relation(fields: [user_id], references: [id])
+  income                 String
+  occupation             String
+  occupation_description String
+  createAt               DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@map("professional_info")
+}
+
+model Marital_Info {
+  id                      String @id @default(auto()) @map("_id") @db.ObjectId
+  user_id                 String @db.ObjectId
+  user                    User   @relation(fields: [user_id], references: [id])
+  gift_from_brides_family String
+  guardian_agree          String
+  job_after_marriage      String
+  marriage_thoughts       String
+  marriage_veil           String
+  resite_after_marriage   String
+  study_after_marriage    String
+
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("marital_info")
+}
+
+model Partner_Info {
+  id                  String @id @default(auto()) @map("_id") @db.ObjectId
+  user_id             String @db.ObjectId
+  user                User   @relation(fields: [user_id], references: [id])
+  complexion          String
+  district            String
+  edu_qualification   String
+  expected_Qualities  String
+  financial_condition String
+  height              String
+  marital_status      String
+  profession          String
+
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("partner_info")
+}
+
+model agreementInfo {
+  id                       String   @id @default(auto()) @map("_id") @db.ObjectId
+  user_id                  String   @db.ObjectId
+  user                     User     @relation(fields: [user_id], references: [id])
+  candidate_responsibility String
+  information_truth        String
+  parents_aware            String
+  createAt                 DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  @@map("agreement_info")
+}
+
+model ContactInfo {
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  user_id               String   @db.ObjectId
+  user                  User     @relation(fields: [user_id], references: [id])
+  candidate_name        String
+  email_address         String
+  guardian_relationship String
+  gurdian_mobile        String
+  createAt              DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@map("contact_info")
 }
 
 enum RoleEnumType {
@@ -31,3 +262,13 @@ enum RoleEnumType {
   USER
 }
 
+enum StatusType {
+  APPROVED
+  REJECT
+  PENDING
+}
+
+enum BioCreated {
+  YES
+  NO
+}

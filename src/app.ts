@@ -3,7 +3,12 @@ import express, { Application, NextFunction, Request, Response } from 'express'
 import httpStatus from 'http-status'
 import rootRoutes from './app/routes/index'
 const app: Application = express()
-const corsOptions = { origin: '*'}
+
+const corsOptions = { 
+  // origin: '*'
+  origin: ['http://localhost:3000','http://localhost:3039'],
+  credentials: true,
+}
 
 
 //middlwares

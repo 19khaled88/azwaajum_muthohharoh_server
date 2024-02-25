@@ -8,7 +8,11 @@ const express_1 = __importDefault(require("express"));
 const http_status_1 = __importDefault(require("http-status"));
 const index_1 = __importDefault(require("./app/routes/index"));
 const app = (0, express_1.default)();
-const corsOptions = { origin: '*' };
+const corsOptions = {
+    // origin: '*'
+    origin: ['http://localhost:3000', 'http://localhost:3039'],
+    credentials: true,
+};
 //middlwares
 app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());

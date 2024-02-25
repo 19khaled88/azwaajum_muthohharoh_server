@@ -46,7 +46,6 @@ const RegisterController = (req, res, next) => __awaiter(void 0, void 0, void 0,
     }
 });
 const createAccessToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body.token, req.body.key);
     try {
         const response = yield service_1.AuthService.createAccessToken(req.body.key, req.body.token);
         res.status(200).json({

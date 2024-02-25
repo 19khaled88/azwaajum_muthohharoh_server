@@ -37,7 +37,7 @@ const RegisterController =async(req:Request,res:Response,next:NextFunction) =>{
 }
 
 const createAccessToken=async(req:Request,res:Response,next:NextFunction)=>{
-    console.log(req.body.token,req.body.key)
+   
     try {
         const response = await AuthService.createAccessToken(req.body.key, req.body.token)
         res.status(200).json({
