@@ -5,11 +5,7 @@ import { IGenericResponse } from "../../../shared/paginationResponse"
 import { paginationHelper } from "../../../helpers/paginationHelper"
 import { User } from "./interface"
 
-
-
 const prisma = new PrismaClient()
-
-
 
 
 const create = async (payload: any) => {
@@ -71,6 +67,8 @@ const frontEndShow = async (
     // console.log(payload)
     const { searchTerm, ...filterData } = filterOptions;
 
+    
+
     const { limit, page, skip } = paginationHelper.calculatePagination(paginationOptions);
     const response = await prisma.$transaction(async transactionClient => {
         const andConditions: { user: User }[] = [{ user: {} }];
@@ -78,7 +76,7 @@ const frontEndShow = async (
         // Push the make: 'YES' condition into the andConditions array
 
 
-        //searching code
+        // searching code
         // if (searchTerm) {
         //     andConditions.push({
         //         OR: bio_fields_constant.map(field => {
@@ -261,7 +259,7 @@ const frontEndShow = async (
             //         }
             //     }
             // },
-            where: { ...whereCondition, make: 'YES' },
+            where: { ...whereCondition, make: 'YES',status:'APPROVED' },
             skip,
             take: limit,
             orderBy:
@@ -271,6 +269,7 @@ const frontEndShow = async (
                     }
                     : { createAt: 'asc' },
         })
+
         return res
     });
 

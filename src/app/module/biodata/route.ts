@@ -8,7 +8,7 @@ const router = express.Router()
 
 router.post('/create', BioDataController.create)
 router.get('/getAll', BioDataController.getAll)
-router.post('/frontEndShow',BioDataController.frontEndShow)
+router.get('/frontEndShow',BioDataController.frontEndShow)
 router.get('/getPending',BioDataController.getPending)
 router.get('/getApproved',BioDataController.getApproved)
 router.get('/getRejected',BioDataController.getRejected)

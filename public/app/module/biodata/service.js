@@ -75,7 +75,7 @@ const frontEndShow = (paginationOptions, filterOptions) => __awaiter(void 0, voi
     const response = yield prisma.$transaction((transactionClient) => __awaiter(void 0, void 0, void 0, function* () {
         const andConditions = [{ user: {} }];
         // Push the make: 'YES' condition into the andConditions array
-        //searching code
+        // searching code
         // if (searchTerm) {
         //     andConditions.push({
         //         OR: bio_fields_constant.map(field => {
@@ -252,7 +252,7 @@ const frontEndShow = (paginationOptions, filterOptions) => __awaiter(void 0, voi
             //         }
             //     }
             // },
-            where: Object.assign(Object.assign({}, whereCondition), { make: 'YES' }),
+            where: Object.assign(Object.assign({}, whereCondition), { make: 'YES', status: 'APPROVED' }),
             skip,
             take: limit,
             orderBy: paginationOptions.sortBy && paginationOptions.sortOrder

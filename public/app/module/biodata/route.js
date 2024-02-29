@@ -9,7 +9,7 @@ const controller_1 = require("./controller");
 const router = express_1.default.Router();
 router.post('/create', controller_1.BioDataController.create);
 router.get('/getAll', controller_1.BioDataController.getAll);
-router.post('/frontEndShow', controller_1.BioDataController.frontEndShow);
+router.get('/frontEndShow', controller_1.BioDataController.frontEndShow);
 router.get('/getPending', controller_1.BioDataController.getPending);
 router.get('/getApproved', controller_1.BioDataController.getApproved);
 router.get('/getRejected', controller_1.BioDataController.getRejected);
